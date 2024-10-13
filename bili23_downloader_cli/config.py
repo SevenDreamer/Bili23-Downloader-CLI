@@ -51,8 +51,10 @@ class DownloadSettings(BaseModel):
     ] = VideoCodec.HEVC
 
 
-class UserSettings(BaseModel):
+class UserInfo(BaseModel):
     sessdata: str = ""
+    uname: str = ""
+    face: str = ""
 
 
 class ProxySettings(BaseModel):
@@ -70,7 +72,7 @@ class ProxySettings(BaseModel):
 
 class Config(BaseSettings):
     download: Optional[DownloadSettings] = DownloadSettings()
-    user: Optional[UserSettings] = UserSettings()
+    user_info: Optional[UserInfo] = UserInfo()
     proxy: Optional[ProxySettings] = ProxySettings()
 
     model_config = SettingsConfigDict(toml_file=get_config_file())
@@ -125,6 +127,9 @@ def init_config(config: Config):
     # 是否扫码进行登录 # TODO: 这里需要说明登录之后有哪些好处，比如支持最高品质啥的
 
     # 是否需要添加代理
+    if confirm("是否扫码登录B站帐号"):
+        # TODO: 应该调用 main.login的函数，但可能会存在循环导入的问题
+        ...
     if confirm("是否需要添加代理"):
         config.proxy.ip = prompt("代理地址ipv4格式")
         config.proxy.port = prompt("代理端口")
