@@ -1,10 +1,12 @@
 from enum import Enum
+import time
 from typing import Annotated, Any, Dict
 
 from typer import Argument, Option, Typer
 from rich import print
+from qrcode import QRCode
 
-from bili23_downloader_cli.config import check_config
+from bili23_downloader_cli.config import check_config, save_config
 from bili23_downloader_cli.api import Api, LoginQRCodeInfo
 
 app = Typer(
@@ -66,15 +68,35 @@ def get_video_info(url: str) -> Dict[str, Any]:
     raise NotImplementedError
 
 
-def generate_login_qr_code(login_qr_code_info: LoginQRCodeInfo):
+def generate_qr_code(data: str):
     """生成二维码的图片"""
+    qrcode = QRCode()
+    qrcode.add_data(data)
+    qrcode.print_ascii()
 
 
-def get_login_qr_code_info() -> LoginQRCodeInfo:
+def listen_login_status(api: Api, login_qr_code_info: LoginQRCodeInfo, seconds: int = 1):
+    """监听登录状态
+
+    每隔一定是时间发送一次请求判断是否登录成功
     """
-    获取登录二维码的信息
-    """
-    return Api().get_login_qr_code_info()
+    while True:
+        code = api.check_login_state(login_qr_code_info.key)
+        time.sleep(seconds)
+        match code:
+            case 0:
+                user_info = api.get_user_info()
+                api.config.user_info = user_info
+                save_config(api.config)
+                print(":star: 登录成功")
+                break
+            case 86090:
+                print("请在设备侧确认登录")
+            case 86038:
+                login_qr_code_info = api.get_login_qr_code_info()
+                generate_qr_code(login_qr_code_info.url)
+            case _:
+                continue
 
 
 # command 它们就应该留在这个目录或者 cli.py
@@ -112,9 +134,11 @@ def login():
     """
 
     # TODO: 后续将和用户有关的命令集成到 user 这个子命令中如  bili23 user login
-    login_qr_code_info = get_login_qr_code_info()
-    print(login_qr_code_info)
-    # qr_code = generate_login_qr_code(login_qr_code_info)
+    api = Api()
+    login_qr_code_info = api.get_login_qr_code_info()
+    generate_qr_code(login_qr_code_info.url)
+
+    listen_login_status(api, login_qr_code_info)
 
 
 @app.command()
