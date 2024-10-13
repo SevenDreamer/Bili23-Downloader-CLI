@@ -2,7 +2,7 @@ from enum import Enum
 import time
 from typing import Annotated, Any, Dict
 
-from typer import Argument, Option, Typer
+from typer import Option, Typer
 from rich import print
 from qrcode import QRCode
 
@@ -101,32 +101,6 @@ def listen_login_status(api: Api, login_qr_code_info: LoginQRCodeInfo, seconds: 
 
 # command 它们就应该留在这个目录或者 cli.py
 ########################################
-@app.command()
-def download(
-    url: Annotated[
-        str,
-        Argument(help="视频链接,暂不支持输入多个url地址", show_default=False),
-    ],
-    show_info: Annotated[
-        bool, Option("--info", "-i")
-    ] = False,  # 下载的时候默认不显示视频的信息，如果需要显示，则跟 --info / -i
-):
-    """下载"""
-    # config = load_config()
-
-    # video_info = get_video_info(url)
-    # get_video_type(video_info["type"])
-
-    if show_info:
-        # TODO： 需要接rich 打印视频的信息
-        ...
-
-    # TODO: 这里可以跟上promt 进行交互
-    # 是否选择 视频品质，默认为配置的value
-    # 是否选择 音频品质, 同上
-    # ...
-
-
 @app.command()
 def login():
     """
