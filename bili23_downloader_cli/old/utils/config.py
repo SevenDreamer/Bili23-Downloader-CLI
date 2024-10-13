@@ -56,9 +56,7 @@ class Download:
 
 class ConfigUtils:
     def __init__(self):
-        self.path = os.path.join(
-            os.path.abspath(os.path.dirname(__file__)), "config.conf"
-        )
+        self.path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "config.conf")
 
         self.config = RawConfigParser()
         self.config.read(self.path, encoding="utf-8")
@@ -97,9 +95,7 @@ class ConfigUtils:
         )
         process.wait()
 
-        Config.Download.ffmpeg_available = (
-            True if "ffmpeg version" in str(process.stdout.read()) else False
-        )
+        Config.Download.ffmpeg_available = True if "ffmpeg version" in str(process.stdout.read()) else False
 
 
 conf = ConfigUtils()

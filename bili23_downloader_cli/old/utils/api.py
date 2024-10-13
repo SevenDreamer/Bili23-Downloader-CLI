@@ -120,9 +120,7 @@ def qrcode_url_api() -> str:
 
 
 def qrcode_status_api(qrcode_key: str) -> str:
-    return (
-        f"{BASE_QRLOGIN_URL}/x/passport-login/web/qrcode/poll?qrcode_key={qrcode_key}"
-    )
+    return f"{BASE_QRLOGIN_URL}/x/passport-login/web/qrcode/poll?qrcode_key={qrcode_key}"
 
 
 def user_info_api() -> str:

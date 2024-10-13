@@ -71,9 +71,7 @@ class VideoParser:
     def get_video_info(self):
         url = api.info_api(api.APIType.Video, bvid=VideoInfo.bvid)
 
-        info_request = requests.get(
-            url, headers=get_header(VideoInfo.url, cookie=Config.sessdata)
-        )
+        info_request = requests.get(url, headers=get_header(VideoInfo.url, cookie=Config.sessdata))
         info_json = json.loads(info_request.text)
 
         self.check_json(info_json)
@@ -113,9 +111,7 @@ class VideoParser:
         VideoInfo.reply = format_data(info_stat["reply"])
 
     def get_video_quality(self):
-        url = api.download_api(
-            api.APIType.Video, bvid=VideoInfo.bvid, cid=VideoInfo.cid
-        )
+        url = api.download_api(api.APIType.Video, bvid=VideoInfo.bvid, cid=VideoInfo.cid)
 
         video_request = requests.get(url, headers=get_header(cookie=Config.sessdata))
         video_json = json.loads(video_request.text)

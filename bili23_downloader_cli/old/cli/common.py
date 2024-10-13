@@ -107,11 +107,7 @@ def get_episodes_selection(episodes_list):
         pages_selection = input("\n请选择要下载的视频（填序号，0 为全部下载）：")
         result = re.findall("^\d*$", pages_selection)
 
-        if (
-            len(result) == 0
-            or result[0] == ""
-            or int(result[0]) not in range(0, episodes_count + 1)
-        ):
+        if len(result) == 0 or result[0] == "" or int(result[0]) not in range(0, episodes_count + 1):
             print("\033[31m输入无效，请重试\033[0m")
 
         else:
@@ -126,15 +122,11 @@ def show_episodes_selection(type: str):
     if type == "video":
         if VideoInfo.collection:
             episodes_list = [
-                "{}.{}".format(index + 1, value["title"])
-                for index, value in enumerate(VideoInfo.episodes)
+                "{}.{}".format(index + 1, value["title"]) for index, value in enumerate(VideoInfo.episodes)
             ]
         else:
             episodes_list = [
-                "{}.{}".format(
-                    i["page"], i["part"] if VideoInfo.multiple else VideoInfo.title
-                )
-                for i in VideoInfo.pages
+                "{}.{}".format(i["page"], i["part"] if VideoInfo.multiple else VideoInfo.title) for i in VideoInfo.pages
             ]
     else:
         # episodes_list = [
@@ -151,10 +143,7 @@ def show_episodes_selection(type: str):
 
 
 def show_qualiy_selection():
-    quality_list = [
-        "{}.{}".format(index + 1, value)
-        for index, value in enumerate(BangumiInfo.quality_desc)
-    ]
+    quality_list = ["{}.{}".format(index + 1, value) for index, value in enumerate(BangumiInfo.quality_desc)]
     print("\n清晰度列表：\n   ", end="", flush=True)
     print("\n   ".join(quality_list))
 
@@ -176,11 +165,7 @@ def check_ffmpeg_available(exit=False):
         else:
             detail = '请执行 "sudo apt install ffmpeg" 命令安装'
 
-        print(
-            "\033[33m\nNotice: 尚未安装 ffmpeg，{}\n项目地址：{}\n\033[0m".format(
-                detail, Config.APP.homepage
-            )
-        )
+        print("\033[33m\nNotice: 尚未安装 ffmpeg，{}\n项目地址：{}\n\033[0m".format(detail, Config.APP.homepage))
 
 
 def check_arguments():

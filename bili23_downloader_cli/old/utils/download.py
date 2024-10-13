@@ -43,9 +43,7 @@ class Downloader:
         self.onListen()
 
     def range_download(self, url: str, referer_url: str, path: str, chunk_list: list):
-        req = self.session.get(
-            url, headers=get_header(referer_url, None, chunk_list), stream=True
-        )
+        req = self.session.get(url, headers=get_header(referer_url, None, chunk_list), stream=True)
 
         with open(path, "rb+") as f:
             f.seek(chunk_list[0])
@@ -100,10 +98,4 @@ class Downloader:
         return chunk_list
 
     def format_speed(self, speed: int) -> str:
-        return (
-            "{:.1f} MB/s".format(speed / 1024)
-            if speed > 1024
-            else "{:.1f} KB/s".format(speed)
-            if speed > 0
-            else ""
-        )
+        return "{:.1f} MB/s".format(speed / 1024) if speed > 1024 else "{:.1f} KB/s".format(speed) if speed > 0 else ""

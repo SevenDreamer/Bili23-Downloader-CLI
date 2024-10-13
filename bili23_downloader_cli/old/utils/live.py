@@ -38,9 +38,7 @@ class LiveParser:
             self.onError(400)
 
     def get_live_info(self):
-        live_req = requests.get(
-            self.info_api, headers=get_header(), proxies=get_proxy()
-        )
+        live_req = requests.get(self.info_api, headers=get_header(), proxies=get_proxy())
         live_json = json.loads(live_req.text)
 
         if live_json["code"] != 0:

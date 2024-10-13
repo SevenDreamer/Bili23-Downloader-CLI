@@ -66,9 +66,7 @@ def get_file_from_url(url: str, name: str, subtitle: bool = False):
     request = requests.get(url, headers=get_header())
     request.encoding = "utf-8"
 
-    with open(
-        os.path.join(Config.dir, get_legal_name(name)), "w", encoding="utf-8"
-    ) as f:
+    with open(os.path.join(Config.dir, get_legal_name(name)), "w", encoding="utf-8") as f:
         if subtitle:
             f.write(convert_json_to_srt(request.text))
         else:
@@ -84,12 +82,7 @@ def convert_json_to_srt(data):
         file += "{}\n".format(index)
         start = value["from"]
         end = value["to"]
-        file += (
-            format_subtitle_timetag(start, False)
-            + " --> "
-            + format_subtitle_timetag(end, True)
-            + "\n"
-        )
+        file += format_subtitle_timetag(start, False) + " --> " + format_subtitle_timetag(end, True) + "\n"
         file += value["content"] + "\n\n"
 
     return file
@@ -144,15 +137,7 @@ def format_subtitle_timetag(timetag, end):
     else:
         msecs = abs(int(math.modf(timetag)[0] * 100 - 1))
 
-    return (
-        str(hours).zfill(2)
-        + ":"
-        + str(mins).zfill(2)
-        + ":"
-        + str(secs).zfill(2)
-        + ","
-        + str(msecs).zfill(2)
-    )
+    return str(hours).zfill(2) + ":" + str(mins).zfill(2) + ":" + str(secs).zfill(2) + "," + str(msecs).zfill(2)
 
 
 def get_proxy() -> Dict[str, str]:
