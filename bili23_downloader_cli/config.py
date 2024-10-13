@@ -16,7 +16,7 @@ from pydantic_settings import (
 )
 
 from bili23_downloader_cli.util import get_user_config_path
-from bili23_downloader_cli.utils.constant import VideoCodec, VideoQuality
+from bili23_downloader_cli.constant import VideoCodec, VideoQuality
 import rtoml
 from typer import prompt, confirm
 
