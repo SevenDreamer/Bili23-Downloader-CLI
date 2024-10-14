@@ -8,6 +8,7 @@ from qrcode import QRCode
 
 from bili23_downloader_cli.config import check_config, save_config
 from bili23_downloader_cli.api import Api, LoginQRCodeInfo
+from bili23_downloader_cli.commands.download import download
 
 app = Typer(
     no_args_is_help=True,
@@ -15,6 +16,7 @@ app = Typer(
     help="Bilibili视频下载器",
     epilog="Made with :heart:  in [blue]Seven Dreamer[/blue]",
 )
+app.add_typer(download, name="download")
 
 
 class VideoType(Enum):
